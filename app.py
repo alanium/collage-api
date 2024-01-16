@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from models.data import db  # Import SQLAlchemy instance
+from models.data import db
 
 
 app = Flask(__name__)
@@ -13,6 +13,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:2305@localhost/po
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+
+# Crea las tablas si no existen
+with app.app_context():
+    db.create_all()
+
 
 from api.routes import *
 
